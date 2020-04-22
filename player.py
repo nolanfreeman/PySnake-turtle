@@ -4,12 +4,9 @@ from entity import Entity
 
 class Player(Entity):
     def __init__(self, size, color, shape, coordinates):
-        super().__init__(size, color, shape, coordiantes)
+        super().__init__(size, color, shape, coordinates)
 
     def add_segment(self):
-        if self.score > self.highscore:
-            self.highscore = self.score
-
         new = turtle.Turtle()
         new.speed(0)
         new.shape(self.shape)
