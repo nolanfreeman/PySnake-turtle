@@ -6,16 +6,6 @@ delay = 0.1
 
 states = {'menu':0, 'play':1, 'paused':2, 'gameover':3}
 
-# Score
-score = 0
-high_score = 0
-window_width, window_height = 600, 600
-entity_size = 20
-boundries = {'left' : -1 * window_width/2 + entity_size/2,
-             'right' : window_width/2 - entity_size/2,
-             'top' : -1 * window_height/2 + entity_size/2,
-             'bottom' : window_height/2 - entity_size/2}
-state = states['play']
 
 # Set up the screen
 wn = turtle.Screen()
