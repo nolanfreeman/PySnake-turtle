@@ -175,7 +175,10 @@ while True:
 
                 # Hide the segments
                 for segment in segments:
-                    segment.goto(window_width, window_height) # sends them to out past the bottom right corner
+                    # segment.goto(window_width, window_height) # sends them to out past the bottom right corner
+                    segment.clear()
+                    segment.ht()
+                    del segment
 
                 # Clear the segments list
                 segments.clear()
