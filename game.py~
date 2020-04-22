@@ -1,6 +1,7 @@
 # game.py
 
 from player import Player
+from canvas import Canvas
 import turtle
 import time
 
