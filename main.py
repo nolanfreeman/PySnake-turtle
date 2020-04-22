@@ -4,7 +4,6 @@ import random
 
 delay = 0.1
 
-states = {'menu':0, 'play':1, 'paused':2, 'gameover':3}
 
 
 # Set up the screen

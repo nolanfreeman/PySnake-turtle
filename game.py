@@ -1,5 +1,7 @@
 # game.py
 
+states = {'menu':0, 'play':1, 'paused':2, 'gameover':3}
+
 class Game:
     def __init__(self):
         # enviroment setup variables
