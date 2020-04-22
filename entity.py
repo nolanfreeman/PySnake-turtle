@@ -55,10 +55,3 @@ class Entity:
             x = self.head.xcor()
             self.head.setx(x + size)
 
-    def add_segment(self):
-        new = turtle.Turtle()
-        new.speed(0)
-        new.shape(self.shape)
-        new.color(self.color) # TODO make color lighter version of head
-        new.penup()
-        self.segments.append(new)

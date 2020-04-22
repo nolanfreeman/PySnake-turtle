@@ -14,23 +14,6 @@ wn.bgcolor("green")
 wn.setup(width=window_width, height=window_height)
 wn.tracer(0) # Turns off the screen updates
 
-# Snake head
-head = turtle.Turtle()
-head.speed(0)
-head.shape("square")
-head.color("black")
-head.penup()
-head.goto(0,0)
-head.direction = "stop"
-
-# Snake food
-food = turtle.Turtle()
-food.speed(0)
-food.shape("circle")
-food.color("red")
-food.penup()
-food.goto(0,100)
-
 # Pen
 pen = turtle.Turtle()
 pen.speed(0)
