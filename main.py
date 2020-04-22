@@ -65,9 +65,6 @@ while True:
         # Check for a collision with the food
         if head.distance(food) < entity_size:
             # Move the food to a random spot
-            x = random.randint(boundries['left'], boundries['right']) // entity_size * entity_size
-            y = random.randint(boundries['top'], boundries['bottom']) // entity_size * entity_size
-            food.goto(x,y)
 
             # Shorten the delay
             delay -= 0.001
