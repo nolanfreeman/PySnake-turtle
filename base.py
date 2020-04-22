@@ -4,7 +4,7 @@ import random
 
 delay = 0.1
 
-states = {'menu', 'play', 'paused', 'gameover'}
+states = {'menu':0, 'play':1, 'paused':2, 'gameover':3}
 
 # Score
 score = 0
