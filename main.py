@@ -31,8 +31,6 @@ food.color("red")
 food.penup()
 food.goto(0,100)
 
-segments = []
-
 # Pen
 pen = turtle.Turtle()
 pen.speed(0)
@@ -42,40 +40,6 @@ pen.penup()
 pen.hideturtle()
 pen.goto(0, 260)
 pen.write("Score: 0  High Score: 0", align="center", font=("Courier", 24, "normal"))
-
-# Functions
-def go_up():
-    if head.direction != "down" or len(segments) < 1:
-        head.direction = "up"
-
-def go_down():
-    if head.direction != "up" or len(segments) < 1:
-        head.direction = "down"
-
-def go_left():
-    if head.direction != "right" or len(segments) < 1:
-        head.direction = "left"
-
-def go_right():
-    if head.direction != "left" or len(segments) < 1:
-        head.direction = "right"
-
-def move():
-    if head.direction == "up":
-        y = head.ycor()
-        head.sety(y + entity_size)
-
-    if head.direction == "down":
-        y = head.ycor()
-        head.sety(y - entity_size)
-
-    if head.direction == "left":
-        x = head.xcor()
-        head.setx(x - entity_size)
-
-    if head.direction == "right":
-        x = head.xcor()
-        head.setx(x + entity_size)
 
 # Keyboard bindings
 wn.listen()
@@ -121,14 +85,6 @@ while True:
             x = random.randint(boundries['left'], boundries['right']) // entity_size * entity_size
             y = random.randint(boundries['top'], boundries['bottom']) // entity_size * entity_size
             food.goto(x,y)
-
-            # Add a segment
-            new_segment = turtle.Turtle()
-            new_segment.speed(0)
-            new_segment.shape("square")
-            new_segment.color("grey")
-            new_segment.penup()
-            segments.append(new_segment)
 
             # Shorten the delay
             delay -= 0.001
