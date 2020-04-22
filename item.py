@@ -10,4 +10,7 @@ class Item(Entity):
         if coordiantes == ():
             x = random.randint(boundries['left'], boundries['right']) // size * size
             y = random.randint(boundries['top'], boundries['bottom']) // size * size
-            self.head.goto(x, y)
+        else:
+            x, y = coordiantes
+
+        self.head.goto(x, y)
