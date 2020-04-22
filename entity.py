@@ -55,3 +55,30 @@ class Entity:
             x = self.head.xcor()
             self.head.setx(x + size)
 
+    def xcor():
+        return self.head.xcor()
+
+    def ycor():
+        return self.head.ycor()
+
+    def transport(self, coordiantes=()):
+        if coordiantes == ():
+            x = random.randint(boundries['left'], boundries['right']) // size * size
+            y = random.randint(boundries['top'], boundries['bottom']) // size * size
+        else:
+            x, y = coordiantes
+
+        self.head.goto(x, y)
+
+    def set_direction(self, direction):
+        self.head.direction = direction
+
+    def get_distance(self, entity):
+        return self.head.distance(entity)
+
+    def clear_segments(self):
+        for segment in self.segments:
+            segment.clear()
+            segment.ht()
+            del segment
+        segments = []

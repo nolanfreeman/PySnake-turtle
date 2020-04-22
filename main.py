@@ -19,7 +19,7 @@ window.tracer(0) # Turns off the screen updates
 
 game.start()
 
-
+window.mainloop()
 
 
 # Pen
@@ -47,11 +47,11 @@ while True:
         s = 1
 
     if state == states['play']:
-        # Check for a collision with the border
-        if head.xcor()> boundries['right'] or head.xcor()<boundries['left'] or head.ycor()>boundries['bottom'] or head.ycor()<boundries['top']:
-            time.sleep(1)
-            head.goto(0,0)
-            head.direction = "stop"
+        # # Check for a collision with the border
+        # if head.xcor()> boundries['right'] or head.xcor()<boundries['left'] or head.ycor()>boundries['bottom'] or head.ycor()<boundries['top']:
+            # time.sleep(1)
+            # head.goto(0,0)
+            # head.direction = "stop"
 
             # Hide the segments
             for segment in segments:
@@ -71,21 +71,21 @@ while True:
 
 
         # Check for a collision with the food
-        if head.distance(food) < entity_size:
-            # Move the food to a random spot
-
-            # Shorten the delay
-            delay -= 0.001
-
-            # Increase the score
-            score += 10
-
-            if score > high_score:
-                high_score = score
-
-            pen.clear()
-            pen.write("Score: {}  High Score: {}".format(score, high_score), align="center", font=("Courier", 24, "normal")) 
-
+        # if head.distance(food) < entity_size:
+            # # Move the food to a random spot
+# 
+            # # Shorten the delay
+            # delay -= 0.001
+# 
+            # # Increase the score
+            # score += 10
+# 
+            # if score > high_score:
+                # high_score = score
+# 
+            # pen.clear()
+            # pen.write("Score: {}  High Score: {}".format(score, high_score), align="center", font=("Courier", 24, "normal")) 
+# 
         # Move the end segments first in reverse order
         for index in range(len(segments)-1, 0, -1):
             x = segments[index-1].xcor()
@@ -135,4 +135,3 @@ while True:
 
     time.sleep(delay)
 
-window.mainloop()
