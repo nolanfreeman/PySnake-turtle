@@ -4,15 +4,24 @@ import random
 
 delay = 0.1
 
+states = {'menu':0, 'play':1, 'paused':2, 'gameover':3}
+
 # Score
 score = 0
 high_score = 0
+window_width, window_height = 600, 600
+entity_size = 20
+boundries = {'left' : -1 * window_width/2 + entity_size/2,
+             'right' : window_width/2 - entity_size/2,
+             'top' : -1 * window_height/2 + entity_size/2,
+             'bottom' : window_height/2 - entity_size/2}
+state = states['play']
 
 # Set up the screen
 wn = turtle.Screen()
 wn.title("Snake Game by @TokyoEdTech")
 wn.bgcolor("green")
-wn.setup(width=600, height=600)
+wn.setup(width=window_width, height=window_height)
 wn.tracer(0) # Turns off the screen updates
 
 # Snake head
@@ -64,19 +73,19 @@ def go_right():
 def move():
     if head.direction == "up":
         y = head.ycor()
-        head.sety(y + 20)
+        head.sety(y + entity_size)
 
     if head.direction == "down":
         y = head.ycor()
-        head.sety(y - 20)
+        head.sety(y - entity_size)
 
     if head.direction == "left":
         x = head.xcor()
-        head.setx(x - 20)
+        head.setx(x - entity_size)
 
     if head.direction == "right":
         x = head.xcor()
-        head.setx(x + 20)
+        head.setx(x + entity_size)
 
 # Keyboard bindings
 wn.listen()
@@ -89,81 +98,20 @@ wn.onkeypress(go_right, "d")
 while True:
     wn.update()
 
-    # Check for a collision with the border
-    if head.xcor()>290 or head.xcor()<-290 or head.ycor()>290 or head.ycor()<-290:
-        time.sleep(1)
-        head.goto(0,0)
-        head.direction = "stop"
+    if state == states['menu']:
+        s = 1
 
-        # Hide the segments
-        for segment in segments:
-            segment.goto(1000, 1000)
-        
-        # Clear the segments list
-        segments.clear()
-
-        # Reset the score
-        score = 0
-
-        # Reset the delay
-        delay = 0.1
-
-        pen.clear()
-        pen.write("Score: {}  High Score: {}".format(score, high_score), align="center", font=("Courier", 24, "normal")) 
-
-
-    # Check for a collision with the food
-    if head.distance(food) < 20:
-        # Move the food to a random spot
-        x = random.randint(-290, 290)
-        y = random.randint(-290, 290)
-        food.goto(x,y)
-
-        # Add a segment
-        new_segment = turtle.Turtle()
-        new_segment.speed(0)
-        new_segment.shape("square")
-        new_segment.color("grey")
-        new_segment.penup()
-        segments.append(new_segment)
-
-        # Shorten the delay
-        delay -= 0.001
-
-        # Increase the score
-        score += 10
-
-        if score > high_score:
-            high_score = score
-        
-        pen.clear()
-        pen.write("Score: {}  High Score: {}".format(score, high_score), align="center", font=("Courier", 24, "normal")) 
-
-    # Move the end segments first in reverse order
-    for index in range(len(segments)-1, 0, -1):
-        x = segments[index-1].xcor()
-        y = segments[index-1].ycor()
-        segments[index].goto(x, y)
-
-    # Move segment 0 to where the head is
-    if len(segments) > 0:
-        x = head.xcor()
-        y = head.ycor()
-        segments[0].goto(x,y)
-
-    move()    
-
-    # Check for head collision with the body segments
-    for segment in segments:
-        if segment.distance(head) < 20:
+    if state == states['play']:
+        # Check for a collision with the border
+        if head.xcor()> boundries['right'] or head.xcor()<boundries['left'] or head.ycor()>boundries['bottom'] or head.ycor()<boundries['top']:
             time.sleep(1)
             head.goto(0,0)
             head.direction = "stop"
-        
+
             # Hide the segments
             for segment in segments:
                 segment.goto(1000, 1000)
-        
+
             # Clear the segments list
             segments.clear()
 
@@ -172,10 +120,84 @@ while True:
 
             # Reset the delay
             delay = 0.1
-        
-            # Update the score display
+
             pen.clear()
-            pen.write("Score: {}  High Score: {}".format(score, high_score), align="center", font=("Courier", 24, "normal"))
+            pen.write("Score: {}  High Score: {}".format(score, high_score), align="center", font=("Courier", 24, "normal")) 
+
+
+        # Check for a collision with the food
+        if head.distance(food) < entity_size:
+            # Move the food to a random spot
+            x = random.randint(boundries['left'], boundries['right']) // entity_size * entity_size
+            y = random.randint(boundries['top'], boundries['bottom']) // entity_size * entity_size
+            food.goto(x,y)
+
+            # Add a segment
+            new_segment = turtle.Turtle()
+            new_segment.speed(0)
+            new_segment.shape("square")
+            new_segment.color("grey")
+            new_segment.penup()
+            segments.append(new_segment)
+
+            # Shorten the delay
+            delay -= 0.001
+
+            # Increase the score
+            score += 10
+
+            if score > high_score:
+                high_score = score
+
+            pen.clear()
+            pen.write("Score: {}  High Score: {}".format(score, high_score), align="center", font=("Courier", 24, "normal")) 
+
+        # Move the end segments first in reverse order
+        for index in range(len(segments)-1, 0, -1):
+            x = segments[index-1].xcor()
+            y = segments[index-1].ycor()
+            segments[index].goto(x, y)
+
+        # Move segment 0 to where the head is
+        if len(segments) > 0:
+            x = head.xcor()
+            y = head.ycor()
+            segments[0].goto(x,y)
+
+        move()    
+
+        # Check for head collision with the body segments
+        for segment in segments:
+            if segment.distance(head) < entity_size:
+                time.sleep(1)
+                head.goto(0,0)
+                head.direction = "stop"
+
+                # Hide the segments
+                for segment in segments:
+                    # segment.goto(window_width, window_height) # sends them to out past the bottom right corner
+                    segment.clear()
+                    segment.ht()
+                    del segment
+
+                # Clear the segments list
+                segments.clear()
+
+                # Reset the score
+                score = 0
+
+                # Reset the delay
+                delay = 0.1
+
+                # Update the score display
+                pen.clear()
+                pen.write("Score: {}  High Score: {}".format(score, high_score), align="center", font=("Courier", 24, "normal"))
+
+    if state == states['paused']:
+        s = 3
+
+    if state == states['gameover']:
+        s = 4
 
     time.sleep(delay)
 
