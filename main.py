@@ -46,19 +46,19 @@ pen.write("Score: 0  High Score: 0", align="center", font=("Courier", 24, "norma
 
 # Functions
 def go_up():
-    if head.direction != "down":
+    if head.direction != "down" or len(segments) < 1:
         head.direction = "up"
 
 def go_down():
-    if head.direction != "up":
+    if head.direction != "up" or len(segments) < 1:
         head.direction = "down"
 
 def go_left():
-    if head.direction != "right":
+    if head.direction != "right" or len(segments) < 1:
         head.direction = "left"
 
 def go_right():
-    if head.direction != "left":
+    if head.direction != "left" or len(segments) < 1:
         head.direction = "right"
 
 def move():
