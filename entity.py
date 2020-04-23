@@ -1,6 +1,8 @@
 # entity.py
 
 import turtle
+import random
+import time
 
 class Entity:
     def __init__(self, size, color, shape, coordinates):
@@ -62,6 +64,9 @@ class Entity:
     def ycor(self):
         return self.head.ycor()
 
+    def getxy(self):
+        return self.head.pos()
+
     def transport(self, boundries, coordiantes=()):
         if coordiantes == ():
             x = random.randint(boundries['left'], boundries['right']) // self.size * self.size
@@ -75,7 +80,7 @@ class Entity:
         self.head.direction = direction
 
     def get_distance(self, entity):
-        return self.head.distance(entity)
+        return self.head.distance(entity.getxy())
 
     def clear_segments(self):
         for segment in self.segments:
@@ -96,9 +101,9 @@ class Entity:
             y = self.head.ycor()
             self.segments[0].goto(x,y)
 
-    def body_coll(self):
+    def body_coll(self, game):
         for segment in self.segments:
-            if segment.distance(head) < self.entity_size:
+            if segment.distance(self.head) < self.size:
                 time.sleep(1)
                 self.head.goto(0,0)
                 self.head.direction = "stop"
@@ -114,11 +119,12 @@ class Entity:
                 self.segments.clear()
 
                 # Reset the score
-                score = 0
+                game.score = 0
 
                 # Reset the delay
-                delay = 0.1
+                game.delay = 0.1
 
                 # Update the score display
-                pen.clear()
-                pen.write("Score: {}  High Score: {}".format(score, high_score), align="center", font=("Courier", 24, "normal"))
+                game.pen.clear()
+                game.pen.write("Score: {}  High Score: {}".format(game.score, game.highscore), align="center", font=("Courier", 24, "normal"))
+

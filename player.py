@@ -1,6 +1,7 @@
 # player.py
 
 from entity import Entity
+import turtle
 
 class Player(Entity):
     def __init__(self, size, color, shape, coordinates):

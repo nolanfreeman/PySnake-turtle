@@ -1,6 +1,7 @@
 # game.py
 
 from player import Player
+from item import Item
 import turtle
 import time
 
@@ -15,10 +16,10 @@ class Game:
                           'right' : self.window['width']/2 - self.entity_size/2,
                           'top' : -1 * self.window['height']/2 + self.entity_size/2,
                           'bottom' : self.window['height']/2 - self.entity_size/2}
-        self.theme = {'bgcolor': 'green', 'playercolor': 'black', 'playershape':'square'}
+        self.theme = {'bgcolor': 'green', 'playercolor': 'black', 'playershape':'square', 'foodcolor':'red', 'foodshape':'circle'}
 
         # score gameplay variables
-        self.high_score = 0
+        self.highscore = 0
         self.score = 0
 
         self.state = states['menu']
@@ -54,6 +55,10 @@ class Game:
     def play(self):
         self.player = Player(self.entity_size, self.theme['playercolor'], self.theme['playershape'], (0,0))
 
+        food = Item(self.entity_size, self.theme['foodcolor'], self.theme['foodshape'], (0,0))
+        food.transport(self.boundries, ())
+        self.entities.append(food)
+
         self.player.clear_segments()
 
         self.score = 0
@@ -63,7 +68,7 @@ class Game:
         self.state = states['play']
 
         self.pen.clear()
-        self.pen.write("Score: {}  High Score: {}".format(self.score, self.high_score), align="center", font=("Courier", 24, "normal")) 
+        self.pen.write("Score: {}  High Score: {}".format(self.score, self.highscore), align="center", font=("Courier", 24, "normal")) 
 
         # Keyboard bindings
         self.screen.listen()
@@ -94,8 +99,10 @@ class Game:
 
                 for entity in self.entities:
 
-                    if player.get_distance(entity) < entity_size:
+                    if self.player.get_distance(entity) < self.entity_size:
 
+                        entity.transport(self.boundries, ())
+                        self.player.add_segment()
                         # Shorten the delay
                         self.delay -= 0.001
 
@@ -105,11 +112,11 @@ class Game:
                             self.highscore = self.score
 
                         self.pen.clear()
-                        self.pen.write("Score: {}  High Score: {}".format(self.score, self.high_score), align="center", font=("Courier", 24, "normal")) 
+                        self.pen.write("Score: {}  High Score: {}".format(self.score, self.highscore), align="center", font=("Courier", 24, "normal")) 
+
+                self.player.body_coll(self)
 
                 self.player.move_body()
-
-                self.player.body_coll()
 
                 self.player.move()
 
